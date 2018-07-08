@@ -47,8 +47,8 @@ export default class ConnectFour extends React.Component {
 	render() {
 		let board = this.state.board;
 		return (
-			<div>
-        <p>{this.state.message}</p>
+			<div className='mainWrapper'>
+        <p className='message'>{this.state.message}</p>
         <table>
            <tbody>
             {board.map((rows, l_idx) => {
@@ -58,6 +58,7 @@ export default class ConnectFour extends React.Component {
                     return (
                       <td key={`${l_idx}-${r_idx}`}
                         id={`${l_idx}-${r_idx}`}
+                        className={`player${board[r_idx][l_idx]}`}
                         onClick={(e) => this.setPiece(r_idx)}>
                         {board[r_idx][l_idx]}
                       </td>);

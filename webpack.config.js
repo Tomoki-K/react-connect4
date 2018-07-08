@@ -5,6 +5,7 @@ module.exports = {
   mode: 'development',
   entry: {
     'app': './src/App.jsx',
+    'style': './src/css/style.scss'
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -16,11 +17,14 @@ module.exports = {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel-loader'
+    }, {
+      test: /\.scss$/,
+      loader: ['style-loader', 'css-loader', 'sass-loader']
     }]
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
 
   plugins: []

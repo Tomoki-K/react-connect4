@@ -1,0 +1,29 @@
+.mainWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.message {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+
+  td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+
+    &.player1 {
+      background-color: blue;
+    }
+
+    &.player2 {
+      background-color: red;
+    }
+  }
+}
