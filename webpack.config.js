@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   mode: 'development',
   entry: {
-    'app': './src/app.jsx',
+    'app': './src/App.jsx',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -13,14 +13,14 @@ module.exports = {
 
   module: {
     rules: [{
-      test: /\.jsx$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel-loader'
     }]
   },
 
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['', '.js', '.jsx']
   },
 
   plugins: []

@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDom from "react-dom";
+import ConnectFour from "./ConnectFour";
 
 class App extends React.Component {
-  render(){
-    return(
-      <div>
-        <h1>App</h1>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<ConnectFour/>
+		);
+	}
 }
 
 ReactDom.render(<App/>, document.getElementById("app"));
