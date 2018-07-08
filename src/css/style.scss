@@ -27,6 +27,7 @@ table {
     width: 40px;
     height: 40px;
     border: 1px solid black;
+    cursor: pointer;
 
     &:hover {
       background-color: #fffabc;
@@ -35,11 +36,13 @@ table {
     &.player1 {
       background-color: blue;
       border-radius: 50%;
+      cursor: not-allowed;
     }
 
     &.player2 {
       background-color: red;
       border-radius: 50%;
+      cursor: not-allowed;
     }
   }
 }
