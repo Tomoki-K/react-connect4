@@ -1,37 +1,39 @@
 import React from 'react';
 
-const ROW = 7;
-const LINE = 6;
-// board[ROW(縦)][LINE(横)]
+const WINCNT = 4;
+
+// board[X_LEN(縦)][Y_LEN(横)]
+const X_LEN = 7;
+const Y_LEN = 6;
 
 export default class ConnectFour extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			board: [...Array(ROW)].map(e => Array(LINE).fill(0)),
+			board: [...Array(X_LEN)].map(e => Array(Y_LEN).fill(0)),
 			player: 1,
 			message: "player1's turn"
 		}
 	}
 
-	setPiece(rowNum) {
+	setPiece(x) {
 		let settable = true;
 		let newboard = this.state.board
 
 		// validate choice
-		if (!newboard[rowNum].includes(0)) return false;
+		if (!newboard[x].includes(0)) return false;
 
 		// set piece
-		let newRow = this.state.board[rowNum].reverse().map((e, lineNum) => {
+		let newRow = this.state.board[x].reverse().map((e, y) => {
 			if (e == 0 && settable) {
 				settable = false;
-				this.scanForWin(rowNum, LINE - lineNum - 1);
+				this.scanForWin(x, Y_LEN - y);
 				return this.state.player;
 			} else {
 				return e;
 			}
 		});
-		newboard[rowNum] = newRow.reverse();
+		newboard[x] = newRow.reverse();
 		let nextPlyer = this.state.player == 1 ? 2 : 1;
 		this.setState({
 			board: newboard,
@@ -40,9 +42,47 @@ export default class ConnectFour extends React.Component {
 		});
 	}
 
-	scanForWin(row, line) {
+	scanForWin(x, y) {
+		console.log(x, y);
+		const directions = [
+			[1, 1], //[＼]方向
+			[0, 1], //[│]方向
+			[1, 0], //[─]方向
+			[-1, 1] //[／]方向
+		]
+		directions.forEach((d) => {
+			if (this.scanDirection(x, y, d) == WINCNT) {
+				console.log('there is a winner!');
+			}
+		});
 
 	}
+
+	scanDirection(x_id, y_id, dir) {
+		let cnt = 1;
+		let x, y;
+		for (let i = 1; i < WINCNT; i++) {
+			y = x_id + (dir[1] * i);
+			x = y_id + (dir[0] * i);
+			if (this.state.board[x][y] == this.state.player) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		for (let i = 1; i < WINCNT; i++) {
+			y = x_id + (-1 * dir[1] * i);
+			x = y_id + (-1 * dir[0] * i);
+			if (this.state.board[x][y] == this.state.player) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		console.log(cnt);
+		return cnt;
+	}
+
 
 	transpose(arr) {
 		const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
@@ -57,17 +97,18 @@ export default class ConnectFour extends React.Component {
         <p className='message'>{this.state.message}</p>
         <table>
            <tbody>
-            {board.map((rows, l_idx) => {
+            {board.map((xs, y) => {
               return(
-                <tr key={`line-${l_idx}`}>
-                  {rows.map((val, r_idx) => {
+                <tr key={`y-${y}`}>
+                  {xs.map((val, x) => {
                     return (
-                      <td key={`${l_idx}-${r_idx}`}
-                        id={`${l_idx}-${r_idx}`}
-                        className={`player${board[l_idx][r_idx]}`}
-                        onClick={(e) => this.setPiece(r_idx)}>
-                        {r_idx + "," + l_idx}
-                      </td>);
+                      <td key={`${y}-${x}`}
+                        id={`${y}-${x}`}
+                        className={`player${board[y][x]}`}
+                        onClick={(e) => this.setPiece(x)}>
+                        {x + "," + y}
+                      </td>
+                    );
                   })}
                 </tr>
               );

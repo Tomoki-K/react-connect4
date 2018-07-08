@@ -19,12 +19,18 @@ table {
     height: 40px;
     border: 1px solid black;
 
+    &:hover {
+      background-color: #fffabc;
+    }
+
     &.player1 {
       background-color: blue;
+      border-radius: 50%;
     }
 
     &.player2 {
       background-color: red;
+      border-radius: 50%;
     }
   }
 }
