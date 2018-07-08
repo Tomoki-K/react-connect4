@@ -8,6 +8,15 @@
 
 .message {
   text-align: center;
+  font-weight: bold;
+
+  &.player1 {
+    color: blue;
+  }
+
+  &.player2 {
+    color: red;
+  }
 }
 
 table {

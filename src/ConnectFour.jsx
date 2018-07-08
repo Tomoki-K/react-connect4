@@ -13,7 +13,8 @@ export default class ConnectFour extends React.Component {
 			board: [...Array(X_LEN)].map(e => Array(Y_LEN).fill(0)),
 			player: 1,
 			message: "player1's turn",
-			gameset: false
+			gameset: false,
+			debugMode: false
 		}
 	}
 
@@ -32,6 +33,12 @@ export default class ConnectFour extends React.Component {
 		} else {
 			this.setPiece(x);
 		}
+	}
+
+	toggleDebugMode(e) {
+		this.setState({
+			debugMode: !this.state.debugMode
+		});
 	}
 
 	setPiece(x) {
@@ -128,7 +135,7 @@ export default class ConnectFour extends React.Component {
 		let board = this.transpose(this.state.board);
 		return (
 			<div className='mainWrapper'>
-        <p className='message'>{this.state.message}</p>
+        <p className={`message player${this.state.player}`}>{this.state.message}</p>
         <table>
            <tbody>
             {board.map((xs, y) => {
@@ -140,7 +147,7 @@ export default class ConnectFour extends React.Component {
                         id={`${y}-${x}`}
                         className={`player${board[y][x]}`}
                         onClick={(e) => this.handleClick(x)}>
-                        {x + "," + y}
+                        {this.state.debugMode ? x + "," + y: ""}
                       </td>
                     );
                   })}
@@ -149,6 +156,7 @@ export default class ConnectFour extends React.Component {
             })}
           </tbody>
         </table>
+        <button onClick={(e) => this.toggleDebugMode(e)}>toggle coordidates</button>
       </div>
 		);
 	}
