@@ -27,23 +27,22 @@ export default class ConnectFour extends React.Component {
 		let newRow = this.state.board[x].reverse().map((e, y) => {
 			if (e == 0 && settable) {
 				settable = false;
-				this.scanForWin(x, Y_LEN - y);
+				this.scanForWin(x, Y_LEN - y - 1);
 				return this.state.player;
 			} else {
 				return e;
 			}
 		});
 		newboard[x] = newRow.reverse();
-		let nextPlyer = this.state.player == 1 ? 2 : 1;
+		let nextPlayer = this.state.player == 1 ? 2 : 1;
 		this.setState({
 			board: newboard,
-			player: nextPlyer,
+			player: nextPlayer,
 			message: `player${nextPlyer}'s turn`
 		});
 	}
 
 	scanForWin(x, y) {
-		console.log(x, y);
 		const directions = [
 			[1, 1], //[＼]方向
 			[0, 1], //[│]方向
@@ -52,18 +51,21 @@ export default class ConnectFour extends React.Component {
 		]
 		directions.forEach((d) => {
 			if (this.scanDirection(x, y, d) == WINCNT) {
-				console.log('there is a winner!');
+				alert(`player${this.state.player} wins!`)
+				location.reload();
 			}
 		});
-
 	}
 
 	scanDirection(x_id, y_id, dir) {
 		let cnt = 1;
 		let x, y;
+		// console.log("dir = " + dir[0] + " " + dir[1]);
 		for (let i = 1; i < WINCNT; i++) {
-			y = x_id + (dir[1] * i);
-			x = y_id + (dir[0] * i);
+			x = x_id + (dir[1] * i);
+			y = y_id + (dir[0] * i);
+			// console.log("  x , y = " + x + " " + y);
+			if (x >= X_LEN) break;
 			if (this.state.board[x][y] == this.state.player) {
 				cnt++;
 			} else {
@@ -71,15 +73,16 @@ export default class ConnectFour extends React.Component {
 			}
 		}
 		for (let i = 1; i < WINCNT; i++) {
-			y = x_id + (-1 * dir[1] * i);
-			x = y_id + (-1 * dir[0] * i);
+			x = x_id + (-1 * dir[1] * i);
+			y = y_id + (-1 * dir[0] * i);
+			// console.log("  x , y = " + x + " " + y);
+			if (x < 0) break;
 			if (this.state.board[x][y] == this.state.player) {
 				cnt++;
 			} else {
 				break;
 			}
 		}
-		console.log(cnt);
 		return cnt;
 	}
 
