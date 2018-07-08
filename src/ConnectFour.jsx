@@ -9,49 +9,65 @@ export default class ConnectFour extends React.Component {
 		super();
 		this.state = {
 			board: [...Array(ROW)].map(e => Array(LINE).fill(0)),
-			player: 1
+			player: 1,
+			message: "player1's turn"
 		}
 	}
 
 	setPiece(rowNum) {
-		let set = true;
+		let settable = true;
 		let newboard = this.state.board
-		let newRow = this.state.board[rowNum].reverse().map((e) => {
-			if (e == 0 && set) {
-				set = false;
+
+		// validate choice
+		if (!newboard[rowNum].includes(0)) return false;
+
+		// set piece
+		let newRow = this.state.board[rowNum].reverse().map((e, lineNum) => {
+			if (e == 0 && settable) {
+				settable = false;
+				this.scanForWin(rowNum, LINE - lineNum - 1);
 				return this.state.player;
 			} else {
 				return e;
 			}
 		});
 		newboard[rowNum] = newRow.reverse();
+		let nextPlyer = this.state.player == 1 ? 2 : 1;
 		this.setState({
 			board: newboard,
-			player: this.state.player == 1 ? 2 : 1
+			player: nextPlyer,
+			message: `player${nextPlyer}'s turn`
 		});
+	}
+
+	scanForWin(row, line) {
+
 	}
 
 	render() {
 		let board = this.state.board;
 		return (
-			<table>
-			   <tbody>
-			    {board.map((rows, l_idx) => {
-			      return(
-			        <tr key={`line-${l_idx}`}>
-			          {rows.map((val, r_idx) => {
-			            return (
-                    <td key={`${l_idx}-${r_idx}`}
-                      id={`${l_idx}-${r_idx}`}
-                      onClick={(e) => this.setPiece(r_idx)}>
-                      {board[r_idx][l_idx]}
-                    </td>);
-			          })}
-			        </tr>
-			      );
-			    })}
-			  </tbody>
-			</table>
+			<div>
+        <p>{this.state.message}</p>
+        <table>
+           <tbody>
+            {board.map((rows, l_idx) => {
+              return(
+                <tr key={`line-${l_idx}`}>
+                  {rows.map((val, r_idx) => {
+                    return (
+                      <td key={`${l_idx}-${r_idx}`}
+                        id={`${l_idx}-${r_idx}`}
+                        onClick={(e) => this.setPiece(r_idx)}>
+                        {board[r_idx][l_idx]}
+                      </td>);
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 		);
 	}
 }
