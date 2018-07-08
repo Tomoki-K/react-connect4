@@ -44,8 +44,14 @@ export default class ConnectFour extends React.Component {
 
 	}
 
+	transpose(arr) {
+		const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
+		return transpose(arr)
+	}
+
+
 	render() {
-		let board = this.state.board;
+		let board = this.transpose(this.state.board);
 		return (
 			<div className='mainWrapper'>
         <p className='message'>{this.state.message}</p>
@@ -58,9 +64,9 @@ export default class ConnectFour extends React.Component {
                     return (
                       <td key={`${l_idx}-${r_idx}`}
                         id={`${l_idx}-${r_idx}`}
-                        className={`player${board[r_idx][l_idx]}`}
+                        className={`player${board[l_idx][r_idx]}`}
                         onClick={(e) => this.setPiece(r_idx)}>
-                        {board[r_idx][l_idx]}
+                        {r_idx + "," + l_idx}
                       </td>);
                   })}
                 </tr>
