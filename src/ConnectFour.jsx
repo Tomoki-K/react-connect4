@@ -1,4 +1,5 @@
 import React from 'react';
+import Board from './Board';
 
 const WINCNT = 4;
 
@@ -16,6 +17,7 @@ export default class ConnectFour extends React.Component {
 			gameset: false,
 			debugMode: false
 		}
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	initialize() {
@@ -124,38 +126,11 @@ export default class ConnectFour extends React.Component {
 		return cnt;
 	}
 
-
-	transpose(arr) {
-		const transpose = a => a[0].map((_, c) => a.map(r => r[c]));
-		return transpose(arr)
-	}
-
-
 	render() {
-		let board = this.transpose(this.state.board);
 		return (
 			<div className='mainWrapper'>
         <p className={`message player${this.state.player}`}>{this.state.message}</p>
-        <table>
-           <tbody>
-            {board.map((xs, y) => {
-              return(
-                <tr key={`y-${y}`}>
-                  {xs.map((val, x) => {
-                    return (
-                      <td key={`${y}-${x}`}
-                        id={`${y}-${x}`}
-                        className={`player${board[y][x]}`}
-                        onClick={(e) => this.handleClick(x)}>
-                        {this.state.debugMode ? x + "," + y: ""}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <Board {...this.state} handleClick={this.handleClick}/>
         <button onClick={(e) => this.toggleDebugMode(e)}>toggle coordidates</button>
       </div>
 		);
