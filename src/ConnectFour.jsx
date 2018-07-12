@@ -90,7 +90,7 @@ export default class ConnectFour extends React.Component {
 		]
 		let flg = false;
 		directions.forEach((d) => {
-			if (this.scanDirection(x, y, d) == WINCNT) {
+			if (this.scanDirection(x, y, d) >= WINCNT) {
 				flg = true;
 			}
 		});
