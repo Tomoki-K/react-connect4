@@ -19,10 +19,11 @@ export default class Board extends React.Component {
             return(
               <tr key={`row-${y}`} id={`row_${y}`}>
                 {cols.map((val, x) => {
+									const className = `${board[y][x] == 0 ? '': 'hasPiece'} p${board[y][x]}`
                   return (
                     <td key={`${y}-${x}`}
                       id={`cell_${y}-${x}`}
-                      className={`player${board[y][x]}`}
+                      className={className}
                       onClick={(e) => this.props.handleClick(x)}>
                       {this.props.debugMode ? x + "," + y: ""}
                     </td>
